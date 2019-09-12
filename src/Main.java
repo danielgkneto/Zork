@@ -35,9 +35,23 @@ public class Main {
 
     private static Room checkAnswer(Room currentRoom){
         boolean isValidAnswer = false;
-        String options = "( ";
+        int nextRoomId = currentRoom.getId();
+        String options = " Which direction do you want to go? ( ";
 
         if (currentRoom.getNorthtId() != -1) {
+            options = options.concat("north ");
+        }
+        if (currentRoom.getSouthId() != -1) {
+            options = options.concat("south ");
+        }
+        if (currentRoom.getEastId() != -1) {
+            options = options.concat("east ");
+        }
+        if (currentRoom.getWestId() != -1) {
+            options = options.concat("west ");
+        }
+        options = options.concat(")");
+        /*if (currentRoom.getNorthtId() != -1) {
             options = options.concat(rooms.get(currentRoom.getNorthtId()).getName() + " ");
         }
         if (currentRoom.getSouthId() != -1) {
@@ -49,7 +63,7 @@ public class Main {
         if (currentRoom.getWestId() != -1) {
             options = options.concat(rooms.get(currentRoom.getWestId()).getName() + " ");
         }
-        options = options.concat(")");
+        options = options.concat(")");*/
 
         System.out.println(currentRoom.getMessage() + options);
 
@@ -63,8 +77,27 @@ public class Main {
 
             if (options.contains(answer)) {
                 isValidAnswer = true;
+                switch (answer) {
+                    case "north" : {
+                        nextRoomId = currentRoom.getNorthtId();
+                        break;
+                    }
+                    case "south" : {
+                        nextRoomId = currentRoom.getSouthId();
+                        break;
+                    }
+                    case "east" : {
+                        nextRoomId = currentRoom.getEastId();
+                        break;
+                    }
+                    case "west" : {
+                        nextRoomId = currentRoom.getWestId();
+                        break;
+                    }
+                    default: break;
+                }
                 for (Room room : rooms)
-                    if (answer.equals(room.getName()))
+                    if (nextRoomId == room.getId())
                         return room;
             }
         }
